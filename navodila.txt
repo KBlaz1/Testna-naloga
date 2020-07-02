@@ -1,0 +1,24 @@
+* Z GET klicom na naslenji API: http://api.worldbank.org/v2/country/?format=json pridobite JSON
+ podatke za vse države sveta. Bodite previdni, 0 element JSON-a je informacija o število podatkov
+ na strani, ki za nas JE NEUPORABNA.
+
+1. Naredi tabelo v katero se bojo prikazovale naslednje podatke: name, capitalCity, region['value'],
+ incomeLevel['value'].
+2. Z klikom na puščico (Show Details) naj se prikažejo podrobnosti države (popup ali slider). 
+Informacije o podrobnostih dobimo z GET klicom na 
+http://api.worldbank.org/v2/country/br?format=json , 
+br je iso2Code podatek iz države katera je bila izbrana.
+3. Z klikom na Show Details, v URL-ju vstavi ID "query parameter", ki je id države katera je bila 
+izbrana, tako da pri refreshanju strani, naj se VIEW scroll-a do tistega reda ki je v "query parametru"
+ (če se podrobnosti prikazujejo z sliderom), ali pa naj odpre tisto državo v popup-u.
+4. Z klikom na header-u tabele (Name, Capital City...), naj se podatki v tabelo sortirajo. 
+(sort by - ASC/DESC)
+5. Naredi fukncijo za shranjevanje layout-a za sortiranje podatkov, v LOCAL STORAGE - u.
+6. Layout se shranjuje, tako da v inputu (New Layout Input) dodamo ime layouta. 
+Nato z klikom na + shrani.
+7. Nad tabelo s podatkimi naredi DropDown (Select), v katerega se bojo prikazovale vse sort 
+layoute shranjene v LOCAL STORAGE-u.
+8. Z klikom na enega od layout-ov omogoči prikaz podatkov sortirani po vrstnem redu, ki smo
+ ga izbrali.
+
+Za razvoj uporabite Angular 9
