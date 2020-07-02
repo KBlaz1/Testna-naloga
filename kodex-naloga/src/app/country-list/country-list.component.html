@@ -1,0 +1,27 @@
+<h3>Country list</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Capital City</th>
+      <th>Show Details</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let country of countries[1]">
+      <td>
+        {{country.name}}
+      </td>
+      <td>
+        {{country.capitalCity}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!--
+<pre>{{countries | json }}</pre>
+<div *ngFor="let country of countries[1]">
+  {{country.name}}
+</div>-->
