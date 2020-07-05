@@ -22,6 +22,7 @@ export class CountryDetailsComponent implements OnInit {
 
     this.countryService.getCountriesByIso2Code(iso2Code).subscribe((data)=>{
       this.country = data[1];
+      this.country = this.country[0];
     })
   }
 

@@ -1,37 +1,36 @@
 <div class="container">
-  <table class="table" 
-  *ngFor="let c of country">
+  <table class="table" *ngIf="country">
     <tr>
       <td>Name</td>
-      <td>{{ c.name | uppercase }}</td>
+      <td>{{ country.name | uppercase }}</td>
     </tr>
     <tr>
       <td>Region</td>
-      <td>{{c.region.value}}</td>
+      <td>{{country.region.value}}</td>
     </tr>
     <tr>
       <td>Admin region</td>
-      <td>{{c.adminregion.value}}</td>
+      <td>{{country.adminregion.value}}</td>
     </tr>
     <tr>
       <td>Income level</td>
-      <td>{{c.incomeLevel.value}}</td>
+      <td>{{country.incomeLevel.value}}</td>
     </tr>
     <tr>
       <td>Lending type</td>
-      <td>{{c.lendingType.value}}</td>
+      <td>{{country.lendingType.value}}</td>
     </tr>
     <tr>
       <td>Capacity</td>
-      <td>{{c.capitalCity}}</td>
+      <td>{{country.capitalCity}}</td>
     </tr>
     <tr>
       <td>Longtitude</td>
-      <td>{{c.longitude}}</td>
+      <td>{{country.longitude}}</td>
     </tr>
     <tr>
       <td>Latitude</td>
-      <td>{{c.latitude}}</td>
+      <td>{{country.latitude}}</td>
     </tr>
   </table>
 </div>
