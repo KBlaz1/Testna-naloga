@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { JsonPipe } from '@angular/common';
 
 import { CountryService } from '../country.service';
+import { Country } from '../country';
 
 
 @Component({
@@ -11,18 +12,19 @@ import { CountryService } from '../country.service';
 })
 
 export class CountryListComponent implements OnInit {
-  countries = [];
+  countries: Country[];
 
   constructor(
     private countryService: CountryService,
   ) { }
 
   ngOnInit(): void {
+    this.getCountries()
+  }
 
-    this.countryService.getCountries().subscribe((data)=>{
-      this.countries=JSON.parse(JSON.stringify(data));
-    })
-
+  getCountries(): void {
+    this.countryService.getCountries()
+      .subscribe(countries => this.countries = countries[1]);
   }
 
 }

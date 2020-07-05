@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { CountryService } from '../country.service';
+import { Country } from '../country';
 
 @Component({
   selector: 'app-country-details',
@@ -9,7 +10,7 @@ import { CountryService } from '../country.service';
   styleUrls: ['./country-details.component.css']
 })
 export class CountryDetailsComponent implements OnInit {
-  country;
+  country: Country;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -20,7 +21,7 @@ export class CountryDetailsComponent implements OnInit {
     let iso2Code = this.activatedRoute.snapshot.paramMap.get("iso2Code");
 
     this.countryService.getCountriesByIso2Code(iso2Code).subscribe((data)=>{
-      this.country = data;
+      this.country = data[1];
     })
   }
 

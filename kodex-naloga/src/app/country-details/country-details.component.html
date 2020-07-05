@@ -1,4 +1,37 @@
-{{ country | json }}
-<div *ngIf="country">
-  
+<div class="container">
+  <table class="table" 
+  *ngFor="let c of country">
+    <tr>
+      <td>Name</td>
+      <td>{{ c.name | uppercase }}</td>
+    </tr>
+    <tr>
+      <td>Region</td>
+      <td>{{c.region.value}}</td>
+    </tr>
+    <tr>
+      <td>Admin region</td>
+      <td>{{c.adminregion.value}}</td>
+    </tr>
+    <tr>
+      <td>Income level</td>
+      <td>{{c.incomeLevel.value}}</td>
+    </tr>
+    <tr>
+      <td>Lending type</td>
+      <td>{{c.lendingType.value}}</td>
+    </tr>
+    <tr>
+      <td>Capacity</td>
+      <td>{{c.capitalCity}}</td>
+    </tr>
+    <tr>
+      <td>Longtitude</td>
+      <td>{{c.longitude}}</td>
+    </tr>
+    <tr>
+      <td>Latitude</td>
+      <td>{{c.latitude}}</td>
+    </tr>
+  </table>
 </div>
