@@ -1,22 +1,23 @@
 <h3>Country list</h3>
 
-<table>
-  <thead>
+<table class="table table-striped table-bordered table-hover table-sm">
+  <thead class="thead-dark">
     <tr>
-      <th>Name</th>
-      <th>Capital City</th>
-      <th>Show Details</th>
+      <th scope="col">Name</th>
+      <th scope="col">Capital City</th>
+      <th scope="col">Show Details</th>
     </tr>
   </thead>
 
   <tbody>
     <tr *ngFor="let country of countries[1]">
-      <td>
+      <td scope="row">
         {{country.name}}
       </td>
       <td>
         {{country.capitalCity}}
       </td>
+      <td><a [routerLink]="['/countries', country.iso2Code]">▼</a></td>
     </tr>
   </tbody>
 </table>
