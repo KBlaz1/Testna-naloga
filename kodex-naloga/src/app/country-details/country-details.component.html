@@ -1,6 +1,56 @@
-<div class="container">
-  <h5>Country details</h5>
-  <table class="table table-bordered table-sm" *ngIf="country">
+<!--
+<div class="modal" id="cModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" data-dismis="modal">&times;</button>
+        <h5 class="modal-title">Country details</h5>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered table-sm" *ngIf="country">
+          <tr>
+            <td>Name</td>
+            <td>{{ country.name | uppercase }}</td>
+          </tr>
+          <tr>
+            <td>Region</td>
+            <td>{{country.region.value}}</td>
+          </tr>
+          <tr>
+            <td>Admin region</td>
+            <td>{{country.adminregion.value}}</td>
+          </tr>
+          <tr>
+            <td>Income level</td>
+            <td>{{country.incomeLevel.value}}</td>
+          </tr>
+          <tr>
+            <td>Lending type</td>
+            <td>{{country.lendingType.value}}</td>
+          </tr>
+          <tr>
+            <td>Capacity</td>
+            <td>{{country.capitalCity}}</td>
+          </tr>
+          <tr>
+            <td>Longtitude</td>
+            <td>{{country.longitude}}</td>
+          </tr>
+          <tr>
+            <td>Latitude</td>
+            <td>{{country.latitude}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+<div id="table-container">
+  <div class="text-right" id="close-btn-container">
+    <button (click)="goBack()" class="btn btn-secondary text-right btn-sm">&#10006;</button>
+  </div>
+  <table class="table-dark table-bordered" *ngIf="country">
     <tr>
       <td>Name</td>
       <td>{{ country.name | uppercase }}</td>

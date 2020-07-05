@@ -1,0 +1,13 @@
+#table-container {
+  position: fixed;
+  background-color: lightslategray;
+  border: solid 1px black;
+  padding: 0px 10px 10px 10px;
+  top: 40%;
+  left: 40%;
+  border-radius: 10px;
+}
+
+#close-btn-container {
+  padding: 0px 0px 10px 10px;
+}

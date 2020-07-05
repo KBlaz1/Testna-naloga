@@ -1,6 +1,5 @@
-<h3>Country list</h3>
 <div class="container">
-
+  <h3>Country list</h3>
   <table class="table table-striped table-bordered table-hover table-sm">
     <thead class="thead-dark">
       <tr>
@@ -18,14 +17,29 @@
         <td>
           {{country.capitalCity}}
         </td>
-        <td><a [routerLink]="['/countries', country.iso2Code]">▼</a></td>
+        <td>
+          <a [routerLink]="['/countries', country.iso2Code]" data-toggle="modal" data-target="#cModal">
+            ▼
+          </a>
+        </td>
       </tr>
     </tbody>
   </table>
 </div>
+
 <router-outlet></router-outlet>
+
 <!--
-<pre>{{countries | json }}</pre>
-<div *ngFor="let country of countries[1]">
-  {{country.name}}
+<div class="modal" id="cModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" data-dismis="modal">&times;</button>
+        <h5 class="modal-title">Country details</h5>
+      </div>
+      <div class="modal-body">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
 </div>-->

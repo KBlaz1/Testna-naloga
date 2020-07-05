@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { CountryService } from '../country.service';
 import { Country } from '../country';
@@ -14,7 +15,8 @@ export class CountryDetailsComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private countryService: CountryService
+    private countryService: CountryService,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -24,6 +26,10 @@ export class CountryDetailsComponent implements OnInit {
       this.country = data[1];
       this.country = this.country[0];
     })
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
 }
