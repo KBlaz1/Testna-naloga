@@ -19,7 +19,8 @@ export class CountryListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getCountries()
+    this.getCountries();
+    this.addAllKeysToSelect();
   }
 
   getCountries(): void {
@@ -46,9 +47,9 @@ export class CountryListComponent implements OnInit {
   }
 
   private flipCountries(n: number, index: number) {
-      let tempCountry = this.countries[index];
-      this.countries[index] = this.countries[index + n];
-      this.countries[index + n] = tempCountry;
+    let tempCountry = this.countries[index];
+    this.countries[index] = this.countries[index + n];
+    this.countries[index + n] = tempCountry;
   }
 
   private findIndexById(id: string): number {
@@ -59,6 +60,67 @@ export class CountryListComponent implements OnInit {
       }
     }
     return -1;
+  }
+
+  saveLayout(): void {
+    let layoutName: string = (<HTMLInputElement>document.getElementById("layoutName")).value;
+    let countryIds: string[] = [];
+
+    this.countries.forEach(country =>
+      countryIds.push(country.id));
+
+    localStorage.setItem(layoutName, JSON.stringify(countryIds));
+    this.addKeyToSelected(layoutName);
+  }
+
+  clearLayouts(): void {
+    localStorage.clear();
+    let layoutSelect: HTMLSelectElement = (<HTMLSelectElement>document.getElementById("layoutSelect"));
+
+    for(let i = layoutSelect.options.length; i >= 1; i--) {
+      layoutSelect.options[i] = null;
+    }
+  }
+
+  changeLayout(): void {
+    let layoutSelect: HTMLSelectElement = (<HTMLSelectElement>document.getElementById("layoutSelect"));
+    let index = layoutSelect.selectedIndex;
+    let selectedLayout: string = layoutSelect.options[index].text;
+    let newLayout: Country[] = [];
+
+    let storedLayeout: string[] = JSON.parse(localStorage.getItem(selectedLayout));
+
+    for (let i = 0; i < storedLayeout.length; i++) {
+      for (let j = 0; j < this.countries.length; j++) {
+        if (storedLayeout[i] == this.countries[j].id) {
+          newLayout.push(this.countries[j]);
+        }
+      }
+    }
+
+    this.countries = newLayout;
+  }
+
+  private addAllKeysToSelect(): void {
+    let keys: string[] = [];
+
+    if (localStorage.length > 0) {
+
+      for (let i = 0; i < localStorage.length; i++) {
+        keys.push(localStorage.key(i));
+      }
+
+      for (let i = 0; i < keys.length; i++) {
+        this.addKeyToSelected(keys[i]);
+      }
+    }
+  }
+
+  private addKeyToSelected(key: string): void {
+    let layoutSelect: HTMLSelectElement = (<HTMLSelectElement>document.getElementById("layoutSelect"));
+    let option: HTMLOptionElement = document.createElement("option");
+    option.text = key;
+    layoutSelect.add(option);
   }
 
   /*

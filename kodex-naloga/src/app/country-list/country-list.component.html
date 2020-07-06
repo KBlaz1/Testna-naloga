@@ -1,8 +1,32 @@
 <div class="container">
   <h3>Country list</h3>
+
+  <!--INPUT-->
+  <table>
+    <tr>
+      <td>
+        <select (change)="changeLayout()" id="layoutSelect">
+          <option value="" disabled selected>Select layout</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input id="layoutName" type="txt" placeholder="New layout">
+      </td>
+      <td>
+        <button (click)="saveLayout()" class="btn btn-secondary btn-sm" style="margin-right:5px;">Add</button>
+        <button (click)="clearLayouts()" class="btn btn-secondary btn-sm">Clear</button>
+      </td>
+    </tr>
+  </table>
+  <div class="form-group">
+  </div>
+  <!--/INPUT-->
+
   <table id="table" class="table table-striped table-bordered table-hover table-sm">
     <thead (click)="sortTable()" class="thead-dark">
-      <tr >
+      <tr>
         <th></th>
         <th scope="col">Name</th>
         <th scope="col">Capital City</th>
