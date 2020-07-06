@@ -1,8 +1,9 @@
 <div class="container">
   <h3>Country list</h3>
-  <table class="table table-striped table-bordered table-hover table-sm">
-    <thead class="thead-dark">
-      <tr>
+  <table id="table" class="table table-striped table-bordered table-hover table-sm">
+    <thead (click)="sortTable()" class="thead-dark">
+      <tr >
+        <th></th>
         <th scope="col">Name</th>
         <th scope="col">Capital City</th>
         <th scope="col">Show Details</th>
@@ -11,6 +12,10 @@
 
     <tbody>
       <tr *ngFor="let country of countries">
+        <td>
+          <button (click)="countryUp(country.id)" class="btn btn-secondary btn-sm" style="margin-right: 5px;">▲</button>
+          <button (click)="countryDown(country.id)" class="btn btn-secondary btn-sm">▼</button>
+        </td>
         <td scope="row">
           {{country.name}}
         </td>
@@ -28,18 +33,3 @@
 </div>
 
 <router-outlet></router-outlet>
-
-<!--
-<div class="modal" id="cModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button class="close" data-dismis="modal">&times;</button>
-        <h5 class="modal-title">Country details</h5>
-      </div>
-      <div class="modal-body">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-  </div>
-</div>-->
