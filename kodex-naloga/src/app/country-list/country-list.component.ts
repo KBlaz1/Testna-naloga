@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { CountryService } from '../country.service';
 import { Country } from '../country';
-
+import { Column, IcolumnToJson } from '../column';
 
 @Component({
   selector: 'app-country-list',
@@ -12,7 +12,16 @@ import { Country } from '../country';
 
 export class CountryListComponent implements OnInit {
   countries: Country[];
-  //sortedCountries: Country[] = [];
+  layouts: string[] = [];
+  errorText: boolean = false;
+
+  //columns
+  columnName = new Column("name", null);
+  columnCapital = new Column("capital", null);
+  columnRegion = new Column("region", null);
+  columnIncome = new Column("income", null);
+
+  columnPrimary: Column;
 
   constructor(
     private countryService: CountryService,
@@ -20,130 +29,302 @@ export class CountryListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCountries();
-    this.addAllKeysToSelect();
+    this.addNamesToSelect();
   }
 
   getCountries(): void {
     this.countryService.getCountries()
-      .subscribe(countries => this.countries = countries[1]);
+      .subscribe(countries =>
+        this.countries = countries[1])
   }
 
-  sortTable(): void {
-    this.countries.reverse();
-  }
-
-  countryUp(id: string): void {
-    let index = this.findIndexById(id);
-    if (index != 0) {
-      this.flipCountries(-1, index);
+  sortBy(propertyName: string): void {
+    switch (propertyName) {
+      case ("name"):
+        this.columnName.changeReverseValue();
+        this.sortByName();
+        break;
+      case ("capital"):
+        this.columnCapital.changeReverseValue();
+        this.sortByCapital();
+        break;
+      case ("region"):
+        this.columnRegion.changeReverseValue();
+        this.sortByRegion();
+        break;
+      case ("income"):
+        this.columnIncome.changeReverseValue();
+        this.sortByIncome()
     }
   }
 
-  countryDown(id: string): void {
-    let index = this.findIndexById(id);
-    if (index != this.countries.length - 1) {
-      this.flipCountries(1, index);
+  sortByName() {
+    this.columnPrimary = this.columnName;
+
+    this.columnName.primary = true;
+    this.columnCapital.primary = false;
+    this.columnIncome.primary = false;
+    this.columnRegion.primary = false
+
+    this.columnCapital.reverse = null;
+    this.columnIncome.reverse = null;
+    this.columnRegion.reverse = null;
+    let isReverse = this.columnName.reverse;
+
+    if (isReverse == true) {
+      this.countries.sort((a: Country, b: Country) => {
+        if (a.name < b.name) {
+          return 1;
+        }
+        else if (a.name > b.name) {
+          return -1;
+        }
+        return 0;
+      });
+    }
+    else if (isReverse == false) {
+      this.countries.sort((a: Country, b: Country) => {
+        if (a.name > b.name) {
+          return 1;
+        }
+        else if (a.name < b.name) {
+          return -1;
+        }
+        return 0;
+      });
+    }
+    else if (isReverse == null) {
+      this.getCountries();
+    }
+
+  }
+
+  sortByCapital() {
+    this.columnPrimary = this.columnCapital;
+
+    this.columnName.primary = false;
+    this.columnCapital.primary = true;
+    this.columnIncome.primary = false;
+    this.columnRegion.primary = false
+
+    this.columnName.reverse = null;
+    this.columnIncome.reverse = null;
+    this.columnRegion.reverse = null;
+    let isReverse = this.columnCapital.reverse;
+
+    if (isReverse == true) {
+      this.countries.sort((a: Country, b: Country) => {
+        if (a.capitalCity < b.capitalCity) {
+          return 1;
+        }
+        else if (a.capitalCity > b.capitalCity) {
+          return -1;
+        }
+        return 0;
+      });
+    }
+    else if (isReverse == false) {
+      this.countries.sort((a: Country, b: Country) => {
+        if (a.capitalCity > b.capitalCity) {
+          return 1;
+        }
+        else if (a.capitalCity < b.capitalCity) {
+          return -1;
+        }
+        return 0;
+      });
+    }
+    else if (isReverse == null) {
+      this.getCountries();
     }
   }
 
-  private flipCountries(n: number, index: number) {
-    let tempCountry = this.countries[index];
-    this.countries[index] = this.countries[index + n];
-    this.countries[index + n] = tempCountry;
+
+  sortByRegion() {
+    this.columnPrimary = this.columnRegion;
+
+    this.columnName.primary = false;
+    this.columnCapital.primary = false;
+    this.columnIncome.primary = false;
+    this.columnRegion.primary = true;
+
+    this.columnName.reverse = null;
+    this.columnIncome.reverse = null;
+    this.columnCapital.reverse = null;
+    let isReverse = this.columnRegion.reverse;
+
+    if (isReverse == true) {
+      this.countries.sort((a: Country, b: Country) => {
+        if (a.region.value < b.region.value) {
+          return 1;
+        }
+        else if (a.region.value > b.region.value) {
+          return -1;
+        }
+        return 0;
+      });
+    }
+    else if (isReverse == false) {
+      this.countries.sort((a: Country, b: Country) => {
+        if (a.region.value > b.region.value) {
+          return 1;
+        }
+        else if (a.region.value < b.region.value) {
+          return -1;
+        }
+        return 0;
+      });
+    }
+    else if (isReverse == null) {
+      this.getCountries();
+    }
+
   }
 
-  private findIndexById(id: string): number {
-    for (let i = 0; i < this.countries.length; i++) {
-      if (id === this.countries[i].id) {
-        console.log(i);
-        return i;
-      }
+  sortByIncome() {
+    this.columnPrimary = this.columnIncome
+
+    this.columnName.primary = false;
+    this.columnCapital.primary = false;
+    this.columnIncome.primary = true;
+    this.columnRegion.primary = false;
+
+    this.columnName.reverse = null;
+    this.columnRegion.reverse = null;
+    this.columnCapital.reverse = null;
+    let isReverse = this.columnIncome.reverse;
+
+    if (isReverse == true) {
+      this.countries.sort((a: Country, b: Country) => {
+        if (a.incomeLevel.value < b.incomeLevel.value) {
+          return 1;
+        }
+        else if (a.incomeLevel.value > b.incomeLevel.value) {
+          return -1;
+        }
+        return 0;
+      });
     }
-    return -1;
+    else if (isReverse == false) {
+      this.countries.sort((a: Country, b: Country) => {
+        if (a.incomeLevel.value > b.incomeLevel.value) {
+          return 1;
+        }
+        else if (a.incomeLevel.value < b.incomeLevel.value) {
+          return -1;
+        }
+        return 0;
+      });
+    }
+    else if (isReverse == null) {
+      this.getCountries();
+    }
+  }
+
+
+  clearLayouts(): void {
+    localStorage.removeItem("ly:key");
+    this.layouts = [];
   }
 
   saveLayout(): void {
     let layoutName: string = (<HTMLInputElement>document.getElementById("layoutName")).value;
-    let countryIds: string[] = [];
+    (<HTMLInputElement>document.getElementById("layoutName")).value = "";
+    let columnPrimary: Column = this.columnPrimary;
+    let layObj: IcolumnToJson = { layout: layoutName, column: "none", descending: null };
+    let key: string = "ly:key";
+    let layoutObjs: IcolumnToJson[] = [];
 
-    this.countries.forEach(country =>
-      countryIds.push(country.id));
 
-    localStorage.setItem(layoutName, JSON.stringify(countryIds));
-    this.addKeyToSelected(layoutName);
-  }
-
-  clearLayouts(): void {
-    localStorage.clear();
-    let layoutSelect: HTMLSelectElement = (<HTMLSelectElement>document.getElementById("layoutSelect"));
-
-    for(let i = layoutSelect.options.length; i >= 1; i--) {
-      layoutSelect.options[i] = null;
+    if (layoutName == "") {
+      this.errorText = true;
+      return;
     }
+    //check if same name exists in localStorage
+    if (localStorage.getItem(key) != null) {
+      layoutObjs = JSON.parse(localStorage.getItem(key));
+      for (let i = 0; i < layoutObjs.length; i++) {
+        if (layoutObjs[i].layout == layoutName) {
+          this.errorText = true;
+          return;
+        }
+      }
+    }
+
+    if (localStorage.getItem("ly:key") === null) {
+      if (columnPrimary != undefined) {
+        layObj.column = columnPrimary.name;
+        layObj.descending = columnPrimary.reverse;
+      }
+
+      layoutObjs.push(layObj);
+      localStorage.setItem(key, JSON.stringify(layoutObjs));
+    }
+    else {
+      if (columnPrimary != undefined) {
+        layObj.column = columnPrimary.name;
+        layObj.descending = columnPrimary.reverse;
+      }
+      layoutObjs = JSON.parse(localStorage.getItem(key));
+      localStorage.removeItem(key);
+      layoutObjs.push(layObj);
+      localStorage.setItem(key, JSON.stringify(layoutObjs));
+
+    }
+    this.errorText = false;
+    this.addNamesToSelect();
   }
 
   changeLayout(): void {
     let layoutSelect: HTMLSelectElement = (<HTMLSelectElement>document.getElementById("layoutSelect"));
     let index = layoutSelect.selectedIndex;
     let selectedLayout: string = layoutSelect.options[index].text;
-    let newLayout: Country[] = [];
+    let layoutObjs: IcolumnToJson[] = JSON.parse(localStorage.getItem("ly:key")) as IcolumnToJson[];
 
-    let storedLayeout: string[] = JSON.parse(localStorage.getItem(selectedLayout));
+    for (let i = 0; i < layoutObjs.length; i++) {
+      if (layoutObjs[i].layout == selectedLayout) {
+        let layObj: IcolumnToJson = layoutObjs[i];
 
-    for (let i = 0; i < storedLayeout.length; i++) {
-      for (let j = 0; j < this.countries.length; j++) {
-        if (storedLayeout[i] == this.countries[j].id) {
-          newLayout.push(this.countries[j]);
+        if (layObj.column == "name") {
+          this.columnName.reverse = layObj.descending;
+          this.sortByName();
         }
-      }
-    }
-
-    this.countries = newLayout;
-  }
-
-  private addAllKeysToSelect(): void {
-    let keys: string[] = [];
-
-    if (localStorage.length > 0) {
-
-      for (let i = 0; i < localStorage.length; i++) {
-        keys.push(localStorage.key(i));
-      }
-
-      for (let i = 0; i < keys.length; i++) {
-        this.addKeyToSelected(keys[i]);
-      }
-    }
-  }
-
-  private addKeyToSelected(key: string): void {
-    let layoutSelect: HTMLSelectElement = (<HTMLSelectElement>document.getElementById("layoutSelect"));
-    let option: HTMLOptionElement = document.createElement("option");
-    option.text = key;
-    layoutSelect.add(option);
-  }
-
-  /*
-  sorTableABC(n: number): void {
-    let names: string[] = [];
-
-    for (let i = 0; i < this.countries.length; i++) {
-      names.push(this.countries[i].name);
-    }
-    names.sort();
-    //console.log(names);
-
-    for (let i = 0; i < names.length; i++) {
-      for (let j = 0; j < this.countries.length; j++) {
-        if (names[i] == this.countries[j].name) {
-          this.sortedCountries.push(this.countries[j]);
-          break;
+        else if (layObj.column == "capital") {
+          this.columnCapital.reverse = layObj.descending;
+          this.sortByCapital();
         }
+        else if (layObj.column == "region") {
+          this.columnRegion.reverse = layObj.descending;
+          this.sortByRegion();
+        }
+        else if (layObj.column == "income") {
+          this.columnIncome.reverse = layObj.descending;
+          this.sortByRegion();
+        }
+        else if (layObj.column == "none") {
+          this.getCountries();
+          this.columnName.reverse = null;
+          this.columnCapital.reverse = null;
+          this.columnRegion.reverse = null;
+          this.columnIncome.reverse = null;
+        }
+          this.columnName.selectArrow();
+          this.columnCapital.selectArrow();
+          this.columnIncome.selectArrow();
+          this.columnRegion.selectArrow();
       }
     }
-    console.log("sorted: " + this.sortedCountries[0].name);
-    this.countries = this.sortedCountries;
-    this.countries.forEach(country => console.log(country));
+  }
 
-  }*/
+  private addNamesToSelect(): void {
+    if (localStorage.getItem("ly:key") != null) {
+      this.layouts = [];
+      let layoutObjs: IcolumnToJson[] = JSON.parse(localStorage.getItem("ly:key")) as IcolumnToJson[];
+      for(let i = 0; i < layoutObjs.length; i++) {
+        this.layouts.push(layoutObjs[i].layout);
+      }
+
+    }
+  }
+
 }

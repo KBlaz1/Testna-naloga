@@ -1,0 +1,8 @@
+.sorting-column-header {
+  cursor: pointer;
+  pointer-events: auto;
+}
+.sorting-column-header:hover {
+  background-color: darkslateblue;
+}
+
